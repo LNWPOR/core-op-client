@@ -20,7 +20,7 @@ public class engineController : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		CurrentHpUpdate ();
+		TakeDamage ();
 	}
 
 	//-------------------------------------------//
