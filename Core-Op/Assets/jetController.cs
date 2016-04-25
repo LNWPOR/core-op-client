@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class engineController : MonoBehaviour {
+public class jetController : MonoBehaviour {
 
 	public float maxHp;
 	public GameObject player;
@@ -19,12 +19,12 @@ public class engineController : MonoBehaviour {
 	}
 
 	void Update () {
-		
+
 	}
 
 	void FixedUpdate () {
 		ReadyToRepair ();
-		Debug.Log ("Engine" + currentHp);
+		Debug.Log ("Jet" + currentHp);
 	}
 
 	//-------------------------------------------//
@@ -58,5 +58,4 @@ public class engineController : MonoBehaviour {
 			return false;
 		}
 	}
-
 }

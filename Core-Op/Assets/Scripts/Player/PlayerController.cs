@@ -19,6 +19,8 @@ public class PlayerController : MonoBehaviour {
 	float camRayLength;
 	int floorMask;
 
+	private bool canAddDamage;
+
 
 	void Awake (){
 		rg2d = GetComponent<Rigidbody2D> ();
@@ -29,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 		breakSpeed = 15f;
 		camRayLength = 100f;
 		fixPower = 2f;
+		canAddDamage = true;
 	}
 
 
@@ -41,6 +44,8 @@ public class PlayerController : MonoBehaviour {
 		Rotate ();
 		StopCheck ();
 		MouseOverUpdate ();
+		AddDamageTest ();
+		RepairDamage ();
 	}
 
 
@@ -90,6 +95,75 @@ public class PlayerController : MonoBehaviour {
 		hit = Physics2D.GetRayIntersection (ray, Mathf.Infinity);
 		if (hit.collider != null) {
 			Debug.Log (hit.collider.name);
+		}
+	}
+
+	void AddDamageTest(){
+		DamageToEngine ();
+		DamageToJet ();
+		DamageToCoreGun ();
+	}
+
+	void DamageToEngine(){
+		if (Input.GetKeyDown(KeyCode.X) && hit.collider.name == "engine"){
+			var engine = hit.collider.gameObject.GetComponent<engineController> ();
+			if (engine != null) {
+				engine.TakeDamage (10f);
+				canAddDamage = false;
+			}
+		}
+	}
+
+	void DamageToJet(){
+		if (Input.GetKeyDown(KeyCode.X) && hit.collider.name == "jet"){
+			var engine = hit.collider.gameObject.GetComponent<jetController> ();
+			if (engine != null) {
+				engine.TakeDamage (10f);
+				canAddDamage = false;
+			}
+		}
+	}
+
+	void DamageToCoreGun(){
+		if (Input.GetKeyDown(KeyCode.X) && hit.collider.name == "coreGun"){
+			var engine = hit.collider.gameObject.GetComponent<coreGunController> ();
+			if (engine != null) {
+				engine.TakeDamage (10f);
+				canAddDamage = false;
+			}
+		}
+	}
+
+	void RepairDamage(){
+		RepairEngine ();
+		RepairJet ();
+		RepairCoreGun ();
+	}
+
+	void RepairEngine(){
+		if (Input.GetKey (KeyCode.E) && hit.collider.name == "engine") {
+			var engine = hit.collider.gameObject.GetComponent<engineController> ();
+			if (engine != null) {
+				engine.Repairing (fixPower);
+			}
+		}
+	}
+
+	void RepairJet(){
+		if (Input.GetKey (KeyCode.E) && hit.collider.name == "jet") {
+			var engine = hit.collider.gameObject.GetComponent<jetController> ();
+			if (engine != null) {
+				engine.Repairing (fixPower);
+			}
+		}
+	}
+
+	void RepairCoreGun(){
+		if (Input.GetKey (KeyCode.E) && hit.collider.name == "coreGun") {
+			var engine = hit.collider.gameObject.GetComponent<coreGunController> ();
+			if (engine != null) {
+				engine.Repairing (fixPower);
+			}
 		}
 	}
 
