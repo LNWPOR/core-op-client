@@ -5,15 +5,21 @@ public class PlayerController : MonoBehaviour {
 
 	public float speed;
 	public float breakSpeed;
+	public float radius;
+	public float fixPower;
 
 	private Vector2 movement;
 	private float moveHorizontal;
 	private float moveVertical;
 	private Rigidbody2D rg2d;
+	private float distSqr;
+	private bool canFix;
+	private Ray ray;
+	private RaycastHit2D hit;
 	float camRayLength;
 	int floorMask;
 
-	// Use this for initialization
+
 	void Awake (){
 		rg2d = GetComponent<Rigidbody2D> ();
 	}
@@ -22,19 +28,28 @@ public class PlayerController : MonoBehaviour {
 		speed = 10f;
 		breakSpeed = 15f;
 		camRayLength = 100f;
+		fixPower = 2f;
 	}
 
-	// Update is called once per frame
+
 	void Update () {
-		Stop ();
+		
 	}
 
 	void FixedUpdate(){
 		MoveUpdate ();
 		Rotate ();
+		StopCheck ();
+		MouseOverUpdate ();
 	}
 
-	void Stop(){
+
+	//-------------------------------------------//
+	//  			  CUSTOM ZONE                //
+	//-------------------------------------------//
+	 
+
+	void StopCheck(){
 		float x_axis = rg2d.velocity.x;
 		float y_axis = rg2d.velocity.y;
 		Vector2 breakX = new Vector2 (-breakSpeed, 0f);
@@ -53,9 +68,6 @@ public class PlayerController : MonoBehaviour {
 			}
 
 		}
-		//Debug.Log (Input.GetKey (KeyCode.Space));
-		//Debug.Log (x_axis);
-		//Debug.Log (y_axis);
 	}
 
 	void MoveUpdate(){
@@ -66,12 +78,19 @@ public class PlayerController : MonoBehaviour {
 		rg2d.AddForce (movement * speed);
 	}
 		
-
 	void Rotate(){
 		Vector3 objectPos = Camera.main.WorldToScreenPoint (transform.position);
 		float angle = Mathf.Atan2(Input.mousePosition.x - objectPos.x, Input.mousePosition.y - objectPos.y) * Mathf.Rad2Deg;
 		Vector3 temp = new Vector3 (0, 0, -angle);	
 		transform.rotation = Quaternion.Euler (temp);
+	}
+
+	void MouseOverUpdate(){
+		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		hit = Physics2D.GetRayIntersection (ray, Mathf.Infinity);
+		if (hit.collider != null) {
+			Debug.Log (hit.collider.name);
+		}
 	}
 
 }
