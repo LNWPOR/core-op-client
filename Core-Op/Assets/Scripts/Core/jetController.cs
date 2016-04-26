@@ -5,8 +5,8 @@ public class jetController : MonoBehaviour {
 
 	public float maxHp;
 	public GameObject player;
+	public float currentHp;
 
-	private float currentHp;
 	private bool canFix;
 	private float radius;
 	private Vector2 offset;
