@@ -6,6 +6,7 @@ public class jetController : MonoBehaviour {
 	public float maxHp;
 	public GameObject player;
 	public float currentHp;
+	public RectTransform healthBar;
 
 	private bool canFix;
 	private float radius;
@@ -19,7 +20,7 @@ public class jetController : MonoBehaviour {
 	}
 
 	void Update () {
-
+		
 	}
 
 	void FixedUpdate () {
@@ -37,6 +38,7 @@ public class jetController : MonoBehaviour {
 		} else {
 			currentHp = 0;
 		}
+		healthBar.sizeDelta = new Vector2(currentHp*2, healthBar.sizeDelta.y);
 	}
 
 	public void Repairing(float fixpower){
@@ -46,6 +48,7 @@ public class jetController : MonoBehaviour {
 				currentHp = maxHp;
 			}
 		}
+		healthBar.sizeDelta = new Vector2(currentHp*2, healthBar.sizeDelta.y);
 	}
 
 	bool ReadyToRepair(){

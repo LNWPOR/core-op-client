@@ -6,6 +6,7 @@ public class engineController : MonoBehaviour {
 	public float maxHp;
 	public GameObject player;
 	public float currentHp;
+	public RectTransform healthBar;
 
 	private bool canFix;
 	private float radius;
@@ -37,6 +38,7 @@ public class engineController : MonoBehaviour {
 		} else {
 			currentHp = 0;
 		}
+		healthBar.sizeDelta = new Vector2(currentHp*2, healthBar.sizeDelta.y);
 	}
 
 	public void Repairing(float fixpower){
@@ -46,6 +48,7 @@ public class engineController : MonoBehaviour {
 				currentHp = maxHp;
 			}
 		}
+		healthBar.sizeDelta = new Vector2(currentHp*2, healthBar.sizeDelta.y);
 	}
 
 	bool ReadyToRepair(){

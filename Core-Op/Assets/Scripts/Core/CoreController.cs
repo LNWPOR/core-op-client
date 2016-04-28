@@ -47,24 +47,9 @@ public class CoreController : MonoBehaviour {
 
 	void RegressionEffect(engineController enginePart, coreGunController coreGunPart, jetController jetPart){
 		EngineHpEffect ();
-		if (enginePart.currentHp > 0) {
-			enginePart.currentHp -= baseRegressionHpRatio * Time.deltaTime;
-		} else {
-			enginePart.currentHp = 0;
-		}
-
-		if (coreGunPart.currentHp > 0) {
-			coreGunPart.currentHp -= regressionHpRatio * Time.deltaTime;
-		} else {
-			coreGunPart.currentHp = 0;
-		}
-
-		if (jetPart.currentHp > 0) {
-			jetPart.currentHp -= regressionHpRatio * Time.deltaTime;
-		} else {
-			jetPart.currentHp = 0;
-		}
-
+		enginePart.TakeDamage( baseRegressionHpRatio * Time.deltaTime );
+		coreGunPart.TakeDamage (regressionHpRatio * Time.deltaTime);
+		jetPart.TakeDamage (regressionHpRatio * Time.deltaTime);
 	}
 
 	void Rotate(){

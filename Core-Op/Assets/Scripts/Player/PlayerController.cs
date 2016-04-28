@@ -36,13 +36,13 @@ public class PlayerController : MonoBehaviour {
 
 
 	void Update () {
-		
+		Debug.Log (canAddDamage);
 	}
 
 	void FixedUpdate(){
 		MoveUpdate ();
 		Rotate ();
-		StopCheck ();
+		BreakCheck ();
 		MouseOverUpdate ();
 		AddDamageTest ();
 		RepairDamage ();
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 	//-------------------------------------------//
 	 
 
-	void StopCheck(){
+	void BreakCheck (){
 		float x_axis = rg2d.velocity.x;
 		float y_axis = rg2d.velocity.y;
 		Vector2 breakX = new Vector2 (-breakSpeed, 0f);
