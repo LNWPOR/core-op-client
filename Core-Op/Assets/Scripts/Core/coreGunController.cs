@@ -25,7 +25,7 @@ public class coreGunController : MonoBehaviour {
 
 	void FixedUpdate () {
 		ReadyToRepair ();
-		Debug.Log ("CoreGun" + currentHp);
+		//Debug.Log ("CoreGun" + currentHp);
 	}
 
 	//-------------------------------------------//

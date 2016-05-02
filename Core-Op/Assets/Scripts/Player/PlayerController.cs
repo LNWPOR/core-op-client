@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour {
 	public float breakSpeed;
 	public float radius;
 	public float fixPower;
+	public float turnSpeed;
 
 	private Vector2 movement;
 	private float moveHorizontal;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start () {
 		speed = 10f;
+		turnSpeed = 5f;
 		breakSpeed = 15f;
 		camRayLength = 100f;
 		fixPower = 2f;
@@ -46,6 +48,7 @@ public class PlayerController : MonoBehaviour {
 		MouseOverUpdate ();
 		AddDamageTest ();
 		RepairDamage ();
+		testTurnForce ();
 	}
 
 
@@ -81,6 +84,7 @@ public class PlayerController : MonoBehaviour {
 		movement = new Vector2 (moveHorizontal, moveVertical);
 		movement = movement.normalized;
 		rg2d.AddForce (movement * speed);
+		testTurnForce ();
 	}
 		
 	void Rotate(){
@@ -167,4 +171,7 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void testTurnForce() {
+		rg2d.AddTorque (turnSpeed*Input.GetAxis("Horizontal"));
+	}
 }
