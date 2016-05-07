@@ -50,6 +50,7 @@ public class EnemyHit : MonoBehaviour {
 			}
 			Destroy (gameObject, 0.1f);
 			isHit = true;
+			enemymovement.ResetCD ();
 			enemymovement.enabled = false;
 
 		}
