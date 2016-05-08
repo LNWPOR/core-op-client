@@ -25,7 +25,7 @@ public class jetController : MonoBehaviour {
 
 	void FixedUpdate () {
 		ReadyToRepair ();
-		//Debug.Log ("Jet" + currentHp);
+
 	}
 
 	//-------------------------------------------//

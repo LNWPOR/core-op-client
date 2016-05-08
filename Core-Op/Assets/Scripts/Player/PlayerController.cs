@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 
 
 	void Update () {
-		Debug.Log (canAddDamage);
+//		Debug.Log (canAddDamage);
 	}
 
 	void FixedUpdate(){
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour {
 		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
 		hit = Physics2D.GetRayIntersection (ray, Mathf.Infinity);
 		if (hit.collider != null) {
-			Debug.Log (hit.collider.name);
+//			Debug.Log (hit.collider.name);
 		}
 	}
 
