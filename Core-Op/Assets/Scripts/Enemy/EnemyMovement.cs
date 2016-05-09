@@ -2,38 +2,99 @@
 using System.Collections;
 
 public class EnemyMovement : MonoBehaviour {
-	public Transform core;
+	GameObject corePart;
+	CoreManager core;
 	private Vector2 corePos;
 	private Vector2 enemyPos;
+	private float dirVecX;
+	private float dirVecY;
 	private float frac;
 	private float timer;
 	private float dist;
+	public float Cooldown = 2f;
+	private float alpha = 0f;
+	private static float a = 40f;
+	private static float b = 35f;
+	private bool phase;
+	private int movementType;
 
 	// Use this for initialization
 	void Start () {
-		corePos = core.position;
+		corePart = GameObject.FindGameObjectWithTag ("Core");
+		core = corePart.GetComponent<CoreManager> ();
+		corePos = core.GetCorePosition();
 		frac = 0.0f;
 		timer = 0f;
+		phase = false;
+		movementType = Random.Range (0, 2);
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 		enemyPos = GetComponent<Transform> ().position;
-		Movement ();
-
+		if (movementType == 0) {
+			Movement1 ();
+		} else {
+			Movement2 ();
+		}
 	}
 
-	void Movement(){
+	void Movement1(){
 		dist = Vector2.Distance(enemyPos,corePos);
 		if (dist >= 40f) {
 			GotoCore ();
 		} else {
-			if (timer >= 2f) {
+			if (timer >= Cooldown) {
 				GotoCore ();
 			}
 			CountCD ();
 
 		}
+	}
+
+	void Movement2(){
+		dist = Vector2.Distance(enemyPos,corePos);
+		if (dist >= 40f && !phase) {
+			GotoCore ();
+		} else {
+			phase = true;
+			if (timer >= Cooldown) {
+				phase = false;
+			}
+			if (phase) {
+//				Debug.Log(Vector2.Angle (corePos, enemyPos));
+				GoElispe ();
+			} else {
+				GotoCore ();
+			}
+			CountCD ();
+
+		}
+	}
+
+	void GoElispe(){
+		float X;
+		float Y;
+		if (alpha == 0f){
+			Vector2 V2 = enemyPos - corePos;
+			float angle = Mathf.Atan2 (V2.y, V2.x);
+			alpha = angle*180f/Mathf.PI;
+			if (alpha < 0) {
+				alpha = alpha%360 + 360;
+			}
+//			Debug.Log ("EnemyPos:" + enemyPos + " CorePos:"+ corePos + " Alpha:" +alpha);
+//			dirVecX = enemyPos.x/Mathf.Abs(enemyPos.x);
+//			dirVecY = enemyPos.y/Mathf.Abs(enemyPos.y);
+		}
+		X = (corePos.x + (a * Mathf.Cos(alpha*Time.deltaTime)));
+		Y = (corePos.y + (b * Mathf.Sin(alpha*Time.deltaTime)));
+		Vector2 temp = new Vector2 (X,Y);
+//		transform.position = Vector2(X,Y);
+		frac = 1.0f/Vector2.Distance(enemyPos,corePos);
+//		Debug.Log (frac); 
+		alpha += 1;
+		if (frac <= 1)
+			transform.position = Vector2.Lerp(enemyPos, temp, frac);
 	}
 
 	void GotoCore(){
