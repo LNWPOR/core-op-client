@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class LoginController : MonoBehaviour {
 
 	public Button loginBtn;
+	public InputField usernameInputField;
 
 	void Awake(){
 		loginBtn.onClick.AddListener(OnClickLogin);
@@ -22,7 +23,7 @@ public class LoginController : MonoBehaviour {
 	}
 
 	void OnClickLogin(){
-		Debug.Log("Login");
+		Debug.Log(usernameInputField.text + " Login");
 		SceneManager.LoadScene("lobby");
 	}
 }
