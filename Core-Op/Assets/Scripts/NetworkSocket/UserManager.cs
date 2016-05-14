@@ -2,23 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameManager : MonoBehaviour {
+public class UserManager : MonoBehaviour {
 
 	public enum Player
 	{
 		player1,player2,guest
 	}
-	private static GameManager 		_instance;
+	private static UserManager 		_instance;
 
 	public 			UserData 			userData;
 	public 			List<UserData>		clientsList;
 	public 			bool				controlAvariabe = false;
 	public			Player				player;
 
-	public static GameManager Instance{
+	public static UserManager Instance{
 		get{
 			if(_instance == null ){
-				_instance = new GameObject("_GameManager").AddComponent<GameManager>();
+				_instance = new GameObject("_UserManager").AddComponent<UserManager>();
 			}
 
 			return _instance;

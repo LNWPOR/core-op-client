@@ -13,37 +13,41 @@ public class LoginController : MonoBehaviour {
 
 	void Awake(){
 		loginBtn.onClick.AddListener(OnClickLogin);
+		InitManager();
+		SocketOn();
+	}
+
+	void Start () {
+		
+	}
+	
+	void Update () {
+	
+	}
+
+	void InitManager(){
 		NetworkManager.Instance.Init();
 		_socket = NetworkManager.Instance.Socket;
 		DontDestroyOnLoad(_socket.gameObject);
+		DontDestroyOnLoad(UserManager.Instance.gameObject);
+		DontDestroyOnLoad(LobbyManager.Instance.gameObject);
+	}
 
-
+	void SocketOn(){
 		_socket.On("NET_AVARIABLE",  (SocketIOEvent evt) =>{
-			// canvas.enabled = true;
 			Debug.Log("Net Avariable");
 		});
 		_socket.On("CONNECTED", OnUserLogin);
 	}
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-
 	private void OnUserLogin(SocketIOEvent evt ){
-		Debug.Log("ID = "+evt.data.GetField("id").ToString());
-		Debug.Log("NAME = "+evt.data.GetField("name").ToString());
+		// Debug.Log("ID = "+evt.data.GetField("id").ToString());
+		// Debug.Log("NAME = "+evt.data.GetField("name").ToString());
 		UserData usrData = new UserData();
 		usrData.ID = Converter.JsonToString(evt.data.GetField("id").ToString());
 		usrData.UserName = Converter.JsonToString(evt.data.GetField("name").ToString());
 		usrData.isSignUp = true;
-		GameManager.Instance.userData = usrData;
-
+		UserManager.Instance.userData = usrData;
 		SceneManager.LoadScene("lobby");
 	}
 
