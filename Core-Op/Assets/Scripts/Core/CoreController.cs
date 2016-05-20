@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class CoreController : MonoBehaviour {
-
+	private float minimumFrac = 10f;
 	public engineController enginePart;
 	public coreGunController coreGunPart;
 	public jetController jetPart;
@@ -57,11 +57,17 @@ public class CoreController : MonoBehaviour {
 	}
 
 	void EngineHpEffect(){
-		regressionHpRatio = (enginePart.maxHp / enginePart.currentHp) * baseRegressionHpRatio;
+		float frac = enginePart.currentHp;
+		if (frac < minimumFrac)
+			frac = minimumFrac;
+		regressionHpRatio = (enginePart.maxHp / frac) * baseRegressionHpRatio;
 	}
 
 	void JetHpEffect(){
-		rotationSpeed = (jetPart.maxHp / jetPart.currentHp) * baseRotationSpeed; // Some equation
+		float frac = jetPart.currentHp;
+		if (frac < minimumFrac)
+			frac = minimumFrac;
+		rotationSpeed = (jetPart.maxHp / frac) * baseRotationSpeed; // Some equation
 	}
 
 	void CoreGunHpEffect(){
