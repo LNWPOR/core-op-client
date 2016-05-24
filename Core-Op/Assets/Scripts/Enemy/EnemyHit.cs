@@ -6,13 +6,11 @@ public class EnemyHit : MonoBehaviour {
 	GameObject enginePart;
 	GameObject gunPart;
 	GameObject jetPart;
+	GameObject player;
 	engineController engineS;
 	coreGunController gunS;
 	jetController jetS;
-
-//	public engineController enginePart;
-//	public coreGunController gunPart;
-//	public jetController jetPart;
+	PlayerManagement playerManager;
 	EnemyMovement enemymovement;
 	public float damage = 20f;
 	private bool isHit;
@@ -23,10 +21,12 @@ public class EnemyHit : MonoBehaviour {
 		enginePart = GameObject.FindGameObjectWithTag ("Engine Part");
 		gunPart = GameObject.FindGameObjectWithTag ("Gun Part");
 		jetPart = GameObject.FindGameObjectWithTag ("Jet Part");
+		player = GameObject.FindGameObjectWithTag ("Player");
 		engineS = enginePart.GetComponent<engineController> ();
 		gunS = gunPart.GetComponent<coreGunController> ();
 		jetS = jetPart.GetComponent<jetController> ();
 		enemymovement = GetComponent<EnemyMovement> ();
+		playerManager = player.GetComponent<PlayerManagement> ();
 	}
 	
 	// Update is called once per frame
@@ -65,6 +65,8 @@ public class EnemyHit : MonoBehaviour {
 				if (jetS.currentHp > 0) {
 					jetS.TakeDamage (damage);
 				}
+			} else if(coll.gameObject.tag == "Player"){
+				playerManager.StartTimeCounter (true, 3f);
 			}
 			Destroy (gameObject, 0.1f);
 			isHit = true;
