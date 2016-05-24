@@ -61,7 +61,7 @@ public class EnemyMovement : MonoBehaviour {
 	// Update is called once per frame
 	void FixedUpdate () {
 		enemyPos = GetComponent<Transform> ().position;
-		movementType = 2;
+//		movementType = 2;
 		switch (movementType) {
 		case 0:
 			Movement1 ();
