@@ -15,18 +15,28 @@ public class EnemyHit : MonoBehaviour {
 	public float damage = 20f;
 	private bool isHit;
 
-	// Use this for initialization
-	void Start () {
-		isHit = false;
+	void InitGameObjects ()
+	{
 		enginePart = GameObject.FindGameObjectWithTag ("Engine Part");
 		gunPart = GameObject.FindGameObjectWithTag ("Gun Part");
 		jetPart = GameObject.FindGameObjectWithTag ("Jet Part");
 		player = GameObject.FindGameObjectWithTag ("Player");
+	}
+
+	void InitScripts ()
+	{
 		engineS = enginePart.GetComponent<engineController> ();
 		gunS = gunPart.GetComponent<coreGunController> ();
 		jetS = jetPart.GetComponent<jetController> ();
 		enemymovement = GetComponent<EnemyMovement> ();
 		playerManager = player.GetComponent<PlayerManagement> ();
+	}
+
+	// Use this for initialization
+	void Start () {
+		isHit = false;
+		InitGameObjects ();
+		InitScripts ();
 	}
 	
 	// Update is called once per frame
@@ -34,41 +44,41 @@ public class EnemyHit : MonoBehaviour {
 	
 	}
 
+	public void DestroyEnemy ()
+	{
+		Destroy (gameObject, 0.1f);
+	}
+
+
 	void OnCollisionEnter2D(Collision2D coll) {
-//		Debug.Log (isHit);
-//		Debug.Log("Engine HP: " + engineS.currentHp);
 		if(!isHit){
 			Debug.Log (coll.gameObject.tag);
-			if (coll.gameObject.tag == "Core") {
-				if (engineS.currentHp > 0) {
+			switch (coll.gameObject.tag) {
+			case "Core":
+				if (engineS.currentHp > 0)
 					engineS.TakeDamage (damage);
-				}
-				if(gunS.currentHp > 0){
+				if (gunS.currentHp > 0)
 					gunS.TakeDamage (damage);
-				}
-				if(jetS.currentHp > 0){
+				if (jetS.currentHp > 0)
 					jetS.TakeDamage (damage);
-				}
-			}
-			else if(coll.gameObject.tag == "Engine Part"){
-				if (engineS.currentHp > 0) {
+				break;
+			case "Engine Part":
+				if (engineS.currentHp > 0)
 					engineS.TakeDamage (damage);
-//					Debug.Log ("OKKK");
-				}
-			}
-			else if(coll.gameObject.tag == "Gun Part"){
-				if (gunS.currentHp > 0) {
+				break;
+			case "Gun Part":
+				if (gunS.currentHp > 0)
 					gunS.TakeDamage (damage);
-				}
-			}
-			else if(coll.gameObject.tag == "Jet Part"){
-				if (jetS.currentHp > 0) {
+				break;
+			case "Jet Part":
+				if (jetS.currentHp > 0)
 					jetS.TakeDamage (damage);
-				}
-			} else if(coll.gameObject.tag == "Player"){
+				break;
+			case "Player":
 				playerManager.StartTimeCounter (true, 3f);
+				break;
 			}
-			Destroy (gameObject, 0.1f);
+			DestroyEnemy ();
 			isHit = true;
 			enemymovement.ResetCD ();
 			enemymovement.enabled = false;

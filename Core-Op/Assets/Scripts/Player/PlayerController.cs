@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
 	public float radius;
 	public float fixPower;
 	public float turnSpeed;
-	public GameObject bullet;
 	private Vector2 movement;
 	private float moveHorizontal;
 	private float moveVertical;
@@ -50,7 +49,6 @@ public class PlayerController : MonoBehaviour {
 		AddDamageTest ();
 		RepairDamage ();
 		testTurnForce ();
-		Shooting ();
 //		getNormMouse ();
 	}
 
@@ -182,22 +180,5 @@ public class PlayerController : MonoBehaviour {
 	public Vector3 getMouseVec(){
 		return VecMouse;
 	}
-
-	Quaternion RotateToGun ()
-	{
-		Quaternion direction;
-		direction = transform.rotation;
-		Vector3 temp;
-		temp = direction.eulerAngles;
-		temp.z += 90f;
-		direction.eulerAngles = temp;
-		return direction;
-	}
-
-	void Shooting(){
-		if (Input.GetMouseButtonDown(0)) {
-			Quaternion direction = RotateToGun ();
-			Instantiate (bullet, transform.position, direction);
-		}
-	}
+		
 }

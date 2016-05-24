@@ -5,12 +5,15 @@ public class BulletManager : MonoBehaviour {
 	public float speed = 5f;
 	Rigidbody2D bulletRigidbody;
 	PlayerController playerCon;
+	EnemyHit enemyHitScript;
 	GameObject player;
+	GameObject enemy;
 	Vector3 MouseVec;
 	Vector2 playerPos;
 	// Use this for initialization
 	void Start () {
 		bulletRigidbody = GetComponent<Rigidbody2D> ();
+		enemy = GameObject.FindGameObjectWithTag ("Enemy");
 		player = GameObject.FindGameObjectWithTag ("Player");
 		playerCon = player.GetComponent<PlayerController> ();
 		playerPos = player.GetComponent<Transform> ().position;
@@ -43,4 +46,16 @@ public class BulletManager : MonoBehaviour {
 		temp.y = dir.y * speed * 10f;
 		bulletRigidbody.velocity = temp;
 	}
+
+	void OnCollisionEnter2D(Collision2D coll) {
+//		Debug.Log (coll.gameObject.tag);
+		switch (coll.gameObject.tag) {
+		case "Enemy":
+			enemyHitScript = enemy.GetComponent<EnemyHit> ();
+			enemyHitScript.DestroyEnemy ();
+			break;
+		}
+		Destroy (gameObject);
+	}
+
 }
