@@ -22,9 +22,6 @@ public class BulletManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		Vector2 temp;
-//		playerPos = player.GetComponent<Transform> ().position;
-//		MouseVec = playerCon.getMouseVec ();
 		fire ();
 		Destroy (gameObject, 3f);
 	}
@@ -48,14 +45,18 @@ public class BulletManager : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
-//		Debug.Log (coll.gameObject.tag);
+		Debug.Log (coll.gameObject.tag);
 		switch (coll.gameObject.tag) {
 		case "Enemy":
 			enemyHitScript = enemy.GetComponent<EnemyHit> ();
 			enemyHitScript.DestroyEnemy ();
+			Destroy (gameObject);
+			break;
+		case "Core":
+			Destroy (gameObject);
 			break;
 		}
-		Destroy (gameObject);
+		
 	}
 
 }
