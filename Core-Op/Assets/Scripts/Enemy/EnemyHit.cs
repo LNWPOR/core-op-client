@@ -75,7 +75,7 @@ public class EnemyHit : MonoBehaviour {
 					jetS.TakeDamage (damage);
 				break;
 			case "Player":
-				playerManager.StartTimeCounter (true, 3f);
+				playerManager.StartCounter (true, 3f);
 				break;
 			}
 			DestroyEnemy ();
