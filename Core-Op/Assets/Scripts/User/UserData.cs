@@ -5,6 +5,6 @@ public class UserData  {
 
 	public string ID;
 	public string UserName;
-	public bool isSignUp = false;
+	// public bool isSignUp = false;
 
 }

@@ -31,6 +31,7 @@ public class LoginController : MonoBehaviour {
 		DontDestroyOnLoad(_socket.gameObject);
 		DontDestroyOnLoad(UserManager.Instance.gameObject);
 		DontDestroyOnLoad(LobbyManager.Instance.gameObject);
+		DontDestroyOnLoad(RoomManager.Instance.gameObject);
 	}
 
 	void SocketOn(){
@@ -46,7 +47,7 @@ public class LoginController : MonoBehaviour {
 		UserData usrData = new UserData();
 		usrData.ID = Converter.JsonToString(evt.data.GetField("id").ToString());
 		usrData.UserName = Converter.JsonToString(evt.data.GetField("name").ToString());
-		usrData.isSignUp = true;
+		// usrData.isSignUp = true;
 		UserManager.Instance.userData = usrData;
 		SceneManager.LoadScene("lobby");
 	}
