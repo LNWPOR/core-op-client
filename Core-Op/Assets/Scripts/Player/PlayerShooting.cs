@@ -3,9 +3,14 @@ using System.Collections;
 
 public class PlayerShooting : MonoBehaviour {
 	public GameObject bullet;
+	private float timer;
+	private float cooldown;
+	private bool isCanShoot;
 	// Use this for initialization
 	void Start () {
-	
+		timer = 0f;
+		isCanShoot = true;
+		cooldown = 0.5f;
 	}
 	
 	// Update is called once per frame
@@ -24,11 +29,31 @@ public class PlayerShooting : MonoBehaviour {
 		return direction;
 	}
 
-	void Shooting(){
-		if (Input.GetMouseButtonDown(0)) {
+	void StartFire ()
+	{
+		if (Input.GetMouseButtonDown (0)) {
 			Quaternion direction = RotateToGun ();
 			Vector2 gunEndPos = transform.position;
 			Instantiate (bullet, gunEndPos, direction);
+			isCanShoot = false;
 		}
+	}
+
+	void Shooting(){
+		if(timer > cooldown && !isCanShoot)
+			ReSetCooldown ();
+		CountTime ();
+		if (isCanShoot) {
+			StartFire ();
+		}
+	}
+
+	void ReSetCooldown(){
+		timer = 0f;
+		isCanShoot = true;
+	}
+
+	void CountTime(){
+		timer += Time.deltaTime;
 	}
 }
