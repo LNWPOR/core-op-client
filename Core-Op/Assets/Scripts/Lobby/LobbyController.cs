@@ -14,6 +14,8 @@ public class LobbyController : MonoBehaviour {
 	public Text[] roomText;
 	public Text[] playerNameText;
 	private int roomNumberSelected;
+	private int maxRoomPlayer;
+	private int totalRooms;
 
 	void Awake() {
 		// startBtn.onClick.AddListener(OnClickStart);
@@ -69,10 +71,20 @@ public class LobbyController : MonoBehaviour {
 		// RoomManager.Instance.roomNumber = roomNumber;
 
 		if(evt.data.GetField("canEnterRoom").ToString() == "true"){
-			Debug.Log("welcome to roomNumber : " + (roomNumberSelected+1) + " as a playerNumber : " + evt.data.GetField("roomSelected").GetField("players").Count);
-			
-			LobbyManager.Instance._roomsData[roomNumberSelected].players[evt.data.GetField("roomSelected").GetField("players").Count-1] = UserManager.Instance.userData;
-			joinRoomBtn[roomNumberSelected].interactable = false;
+			// Debug.Log("welcome to roomNumber : " + (roomNumberSelected+1) + " as a playerNumber : " + evt.data.GetField("roomSelected").GetField("players").Count);
+			int totalPlayerRoomSelected = evt.data.GetField("roomSelected").GetField("players").Count;
+			int playerNumber = totalPlayerRoomSelected-1;
+
+			LobbyManager.Instance._roomsData[roomNumberSelected].players.Add(UserManager.Instance.userData);
+			RoomManager.Instance.roomData = LobbyManager.Instance._roomsData[roomNumberSelected];
+			UserManager.Instance.userData.playerNumber = playerNumber;
+
+			playerNameText[roomNumberSelected*maxRoomPlayer + playerNumber].text = UserManager.Instance.userData.UserName;
+			for(int i = 0 ; i < totalRooms ; i++){
+				joinRoomBtn[i].interactable = false;
+			}
+
+			Debug.Log("myFuc");
 
 			
 		}else if(evt.data.GetField("canEnterRoom").ToString() == "false"){
@@ -82,8 +94,14 @@ public class LobbyController : MonoBehaviour {
 	}
 
 	private void OnOtherUserConnectedRoom(SocketIOEvent evt){
-		// RoomManager.Instance.roomNumber = roomNumber;
-		Debug.Log("gg");
+		Debug.Log(Convert.ToInt32(evt.data.GetField("roomNumberEntered").ToString()).GetType());
+		Debug.Log(Convert.ToInt32(evt.data.GetField("userNumberEntered").ToString()).GetType());
+		// int roomNumberEntered = Convert.ToInt32(evt.data.GetField("roomNumberEntered").ToString());
+		// int playerNumber = Convert.ToInt32(evt.data.GetField("userNumberEntered").ToString());
+		// Debug.Log(roomNumberEntered*maxRoomPlayer + playerNumber);
+		// playerNameText[roomNumberEntered*maxRoomPlayer + playerNumber].text = Converter.JsonToString(evt.data.GetField("userNameEntered").ToString());
+		// Debug.Log("otherFuc roomNumber:"+roomNumberEntered+" playerNumber:"+playerNumber);
+
 	}
 
 	private void OnUserConnectedLobby(SocketIOEvent evt){
@@ -121,8 +139,8 @@ public class LobbyController : MonoBehaviour {
 	}
 
 	private void OnGetConnectedRoomUser(SocketIOEvent evt){
-		int totalRooms = Convert.ToInt32(evt.data.GetField("totalRooms").ToString());
-		int maxRoomPlayer = Convert.ToInt32(evt.data.GetField("maxRoomPlayer").ToString());
+		totalRooms = Convert.ToInt32(evt.data.GetField("totalRooms").ToString());
+		maxRoomPlayer = Convert.ToInt32(evt.data.GetField("maxRoomPlayer").ToString());
 		// Debug.Log(totalRooms);
 
 		for(int i = 0 ; i < totalRooms ; i++){
@@ -142,8 +160,8 @@ public class LobbyController : MonoBehaviour {
 			for(int j = 0 ; j < evt.data.GetField("rooms")[i].GetField("players").Count ; j++){
 				// Debug.Log(evt.data.GetField("rooms")[i].GetField("players")[j].GetField("id"));
 				UserData  usrdata = new UserData();
-				usrdata.ID = evt.data.GetField("rooms")[i].GetField("players")[j].GetField("id").ToString();
-				usrdata.UserName = evt.data.GetField("rooms")[i].GetField("players")[j].GetField("name").ToString();
+				usrdata.ID = Converter.JsonToString(evt.data.GetField("rooms")[i].GetField("players")[j].GetField("id").ToString());
+				usrdata.UserName = Converter.JsonToString(evt.data.GetField("rooms")[i].GetField("players")[j].GetField("name").ToString());
 				roomData.players.Add(usrdata);	
 				// Debug.Log(roomData.players[j]);
 
