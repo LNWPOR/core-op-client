@@ -7,6 +7,7 @@ public class spectrum : MonoBehaviour {
 	public int numberOfObjects = 20;
 	public float radius = 5f;
 	public GameObject[] cubes;
+	public int numberOfChunk = 10;
 	private Vector3[] orgPos;
 	private Vector3 orgScale;
 
@@ -29,6 +30,14 @@ public class spectrum : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		TranformSpectrum ();
+	}
+
+	void ChunkFreq(GameObject[] cubes){
+		int sizePerChunk = cubes.Length / numberOfChunk;
+	}
+
+	void TranformSpectrum(){
 		float[] spectrum = AudioListener.GetSpectrumData (2048, 0, FFTWindow.Hamming);
 		for (int i = 0; i < numberOfObjects; i++) {
 			Vector3 previousScale = cubes [i].transform.localScale;
