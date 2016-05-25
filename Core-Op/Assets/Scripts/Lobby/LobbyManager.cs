@@ -15,6 +15,7 @@ public class LobbyManager : MonoBehaviour {
 	// public 			bool				controlAvariabe = false;
 	// public			Player				player;
 
+	public List<RoomData> _roomsData;
 	public List<UserData> _usersData;
 
 	public static LobbyManager Instance{

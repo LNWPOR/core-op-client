@@ -8,7 +8,6 @@ public class PlayerController : MonoBehaviour {
 	public float radius;
 	public float fixPower;
 	public float turnSpeed;
-
 	private Vector2 movement;
 	private float moveHorizontal;
 	private float moveVertical;
@@ -17,6 +16,7 @@ public class PlayerController : MonoBehaviour {
 	private bool canFix;
 	private Ray ray;
 	private RaycastHit2D hit;
+	private Vector3 VecMouse;
 	float camRayLength;
 	int floorMask;
 
@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour {
 		AddDamageTest ();
 		RepairDamage ();
 		testTurnForce ();
+//		getNormMouse ();
 	}
 
 
@@ -96,6 +97,7 @@ public class PlayerController : MonoBehaviour {
 
 	void MouseOverUpdate(){
 		ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		VecMouse = ray.origin;
 		hit = Physics2D.GetRayIntersection (ray, Mathf.Infinity);
 		if (hit.collider != null) {
 //			Debug.Log (hit.collider.name);
@@ -174,4 +176,9 @@ public class PlayerController : MonoBehaviour {
 	void testTurnForce() {
 		rg2d.AddTorque (turnSpeed*Input.GetAxis("Horizontal"));
 	}
+
+	public Vector3 getMouseVec(){
+		return VecMouse;
+	}
+		
 }
