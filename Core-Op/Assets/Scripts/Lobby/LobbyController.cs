@@ -61,9 +61,12 @@ public class LobbyController : MonoBehaviour {
 	void OnClickJoinRoom(int roomNumber){
 		
 		roomNumberSelected = roomNumber;
-		Dictionary<string, string> data = new Dictionary<string, string>();
-		data["roomNumber"] = roomNumber.ToString();
-		NetworkManager.Instance.Socket.Emit("USER_CONNECTED_ROOM",new JSONObject(data));
+		// Dictionary<string, string> data = new Dictionary<string, string>();
+		// data["roomNumber"] = roomNumber.ToString();
+
+		JSONObject data = new JSONObject();
+		data.AddField("roomNumber", roomNumber );
+		NetworkManager.Instance.Socket.Emit("USER_CONNECTED_ROOM", data);
 		// SceneManager.LoadScene("play");
 	}
 
@@ -84,7 +87,7 @@ public class LobbyController : MonoBehaviour {
 				joinRoomBtn[i].interactable = false;
 			}
 
-			Debug.Log("myFuc");
+			// Debug.Log("myFuc roomNumber:"+roomNumberSelected+" playerNumber:"+playerNumber);
 
 			
 		}else if(evt.data.GetField("canEnterRoom").ToString() == "false"){
@@ -94,12 +97,13 @@ public class LobbyController : MonoBehaviour {
 	}
 
 	private void OnOtherUserConnectedRoom(SocketIOEvent evt){
-		Debug.Log(Convert.ToInt32(evt.data.GetField("roomNumberEntered").ToString()).GetType());
-		Debug.Log(Convert.ToInt32(evt.data.GetField("userNumberEntered").ToString()).GetType());
-		// int roomNumberEntered = Convert.ToInt32(evt.data.GetField("roomNumberEntered").ToString());
-		// int playerNumber = Convert.ToInt32(evt.data.GetField("userNumberEntered").ToString());
+		// Debug.Log(evt.data.GetField("roomNumberEntered").ToString());
+		// Debug.Log(evt.data.GetField("userNumberEntered").ToString());
+
+		int roomNumberEntered = Convert.ToInt32(evt.data.GetField("roomNumberEntered").ToString());
+		int playerNumber = Convert.ToInt32(evt.data.GetField("userNumberEntered").ToString());
+		playerNameText[roomNumberEntered*maxRoomPlayer + playerNumber].text = Converter.JsonToString(evt.data.GetField("userNameEntered").ToString());
 		// Debug.Log(roomNumberEntered*maxRoomPlayer + playerNumber);
-		// playerNameText[roomNumberEntered*maxRoomPlayer + playerNumber].text = Converter.JsonToString(evt.data.GetField("userNameEntered").ToString());
 		// Debug.Log("otherFuc roomNumber:"+roomNumberEntered+" playerNumber:"+playerNumber);
 
 	}
