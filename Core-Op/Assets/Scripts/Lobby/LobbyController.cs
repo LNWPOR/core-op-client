@@ -44,6 +44,7 @@ public class LobbyController : MonoBehaviour {
 		NetworkManager.Instance.Socket.On("USER_CONNECTED_LOBBY", OnUserConnectedLobby);
 		NetworkManager.Instance.Socket.On("USER_CONNECTED_ROOM", OnUserConnectedRoom);
 		NetworkManager.Instance.Socket.On("OTHER_USER_CONNECTED_ROOM", OnOtherUserConnectedRoom);
+		NetworkManager.Instance.Socket.On("USER_DISCONNECTED_ROOM", OnUserDisconnectedRoom);
 	}
 
 	IEnumerator WaitScreenLoad(){
@@ -70,6 +71,15 @@ public class LobbyController : MonoBehaviour {
 		// SceneManager.LoadScene("play");
 	}
 
+	private void OnUserDisconnectedRoom(SocketIOEvent evt){
+		int playerNumberLogout = Convert.ToInt32(evt.data.GetField("playerNumber").ToString());
+		int roomNumberLogout = Convert.ToInt32(evt.data.GetField("roomNumber").ToString());
+
+		LobbyManager.Instance._roomsData[roomNumberLogout].players.RemoveAt(playerNumberLogout);
+
+		playerNameText[roomNumberLogout*maxRoomPlayer + playerNumberLogout].text = "Empty";
+	}
+
 	private void OnUserConnectedRoom(SocketIOEvent evt){
 		// RoomManager.Instance.roomNumber = roomNumber;
 
@@ -79,7 +89,7 @@ public class LobbyController : MonoBehaviour {
 			int playerNumber = totalPlayerRoomSelected-1;
 
 			LobbyManager.Instance._roomsData[roomNumberSelected].players.Add(UserManager.Instance.userData);
-			RoomManager.Instance.roomData = LobbyManager.Instance._roomsData[roomNumberSelected];
+			// RoomManager.Instance.roomData = LobbyManager.Instance._roomsData[roomNumberSelected];
 			UserManager.Instance.userData.playerNumber = playerNumber;
 
 			playerNameText[roomNumberSelected*maxRoomPlayer + playerNumber].text = UserManager.Instance.userData.UserName;
