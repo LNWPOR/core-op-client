@@ -4,13 +4,12 @@ using System.Collections;
 public class jetController : MonoBehaviour {
 
 	public float maxHp;
-	public GameObject player;
+	public GameObject[] player;
 	public float currentHp;
 	public RectTransform healthBar;
 
 	private bool canFix;
 	private float radius;
-	private Vector2 offset;
 
 	void Start () {
 		canFix = false;
@@ -52,10 +51,13 @@ public class jetController : MonoBehaviour {
 	}
 
 	bool ReadyToRepair(){
-		offset = player.transform.position - transform.position;
-		float sqrlen = offset.sqrMagnitude;
-		//Debug.Log (sqrlen);
-		if (sqrlen <= radius) {
+		float[] sqrlen = new float[2];
+		Vector2[] offset = new Vector2[2];
+		for(int i = 0 ; i < sqrlen.Length ; i++){
+			offset[i] = player[i].transform.position - transform.position;
+			sqrlen[i] = offset[i].sqrMagnitude;
+		}
+		if (sqrlen[0] <= radius || sqrlen[1] <= radius) {
 			return true;
 		} else {
 			return false;

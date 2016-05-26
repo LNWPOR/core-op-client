@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-
 	public float speed;
 	public float breakSpeed;
 	public float radius;
@@ -34,6 +33,8 @@ public class PlayerController : MonoBehaviour {
 		camRayLength = 100f;
 		fixPower = 2f;
 		canAddDamage = true;
+
+		Debug.Log(gameObject.name);
 	}
 
 

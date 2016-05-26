@@ -37,8 +37,8 @@ public class CoreController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		RegressionEffect (enginePart,coreGunPart,jetPart);
-		JetHpEffect ();
+		//RegressionEffect (enginePart,coreGunPart,jetPart);
+		//JetHpEffect ();
 	}
 
 	//-------------------------------------------//

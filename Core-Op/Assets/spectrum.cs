@@ -13,7 +13,7 @@ public class spectrum : MonoBehaviour {
 	public GameObject enemyPrefab;
 	public int numberOfObjects = 20;
 	public float radius = 5f;
-	public float ratio = 0.0175f;
+	public float ratio = 0.01f;
 	public float[] spt;
 	public GameObject[] cubes;
 	public int numberOfChunk = 5;
@@ -30,7 +30,7 @@ public class spectrum : MonoBehaviour {
 	void Awake(){
 		orgPos = new Vector3[numberOfObjects];
 		chunk = new Chunk[numberOfChunk];
-		bpm = 1 / (90 / 60);
+		bpm = 1 / (80 / 60);
 		chunkEnable = true;
 		sizePerChunk = numberOfObjects / numberOfChunk;
 	}
@@ -38,7 +38,7 @@ public class spectrum : MonoBehaviour {
 	void Start() {
 		CreateSpectrum ();
 		CreateChunk ();
-		InvokeRepeating ("GetChunkScore", 1f, bpm);
+		InvokeRepeating ("GetChunkScore", bpm, bpm);
 	}
 	
 	// Update is called once per frame
@@ -71,7 +71,7 @@ public class spectrum : MonoBehaviour {
 				score += spt [chunk [i].spectrum [j]];
 
 			}
-			Debug.Log ("Score : "+ i + " " +score);
+			//Debug.Log ("Score : "+ i + " " +score);
 			chunk [i].score = score;
 			int replaceIndex = 0;
 			bool needReplace = false;
@@ -82,14 +82,14 @@ public class spectrum : MonoBehaviour {
 				}
 			}
 			highScore [replaceIndex] = score;
-			Debug.Log ("NeedReplace : " + needReplace);
+			//Debug.Log ("NeedReplace : " + needReplace);
 
 			CheckRatio(needReplace,score,replaceIndex,i);
 
 		}
 
 		for (int k = 0; k < highScore.Length ; k++) {
-			Debug.Log("HighScore in List : " + highScore [k]);
+			//Debug.Log("HighScore in List : " + highScore [k]);
 		}
 			
 		InitEnemy (highScore,highScoreIndex);
@@ -100,10 +100,10 @@ public class spectrum : MonoBehaviour {
 		if (needReplace == true) {
 			if (score > ratio) {
 				highScoreIndex [replaceIndex] = chunk [i].minRange;
-				Debug.Log ("Score : " + score + "| > |" + " Ratio : " + ratio);
+				//Debug.Log ("Score : " + score + "| > |" + " Ratio : " + ratio);
 			} else {
 				highScoreIndex [replaceIndex] = 999;
-				Debug.Log ("Score : " + score + "| < |" + " Ratio : " + ratio);
+				//Debug.Log ("Score : " + score + "| < |" + " Ratio : " + ratio);
 			}
 		}
 	}
@@ -116,12 +116,12 @@ public class spectrum : MonoBehaviour {
 				//Debug.Log ("Spectrum Index : " + spectrumIndex);
 				Vector3 previousScale = cubes [spectrumIndex].transform.localScale;
 				//Vector3 offset = new Vector3 (50f, 0, 0);
-				Vector3 initPos = cubes [spectrumIndex].transform.right.normalized * 100f;
+				Vector3 initPos = cubes [spectrumIndex].transform.right.normalized * 90f;
 				Quaternion direction = cubes [spectrumIndex].transform.rotation;
 				Vector3 temp = direction.eulerAngles;
 				temp.z += 90f;
 				direction.eulerAngles = temp;
-				Debug.Log ("InitPos : " + i + " : " + cubes [spectrumIndex].transform.right.normalized);
+				//Debug.Log ("InitPos : " + i + " : " + cubes [spectrumIndex].transform.right.normalized);
 				Instantiate (enemyPrefab, initPos, direction);
 			}
 		}
