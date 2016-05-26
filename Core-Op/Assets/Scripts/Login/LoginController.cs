@@ -9,10 +9,13 @@ public class LoginController : MonoBehaviour {
 
 	public Button loginBtn;
 	public InputField usernameInputField;
+	public InputField passwordInputField;
+	public Button signUpBtn;
 	private SocketIOComponent _socket;
 
 	void Awake(){
 		loginBtn.onClick.AddListener(OnClickLogin);
+		signUpBtn.onClick.AddListener(OnClickSingUp);
 		InitManager();
 		SocketOn();
 	}
@@ -54,11 +57,21 @@ public class LoginController : MonoBehaviour {
 
 	void OnClickLogin(){
 		// Debug.Log(usernameInputField.text + " Login");
-		string username = usernameInputField.text;
-		Dictionary<string, string> data = new Dictionary<string, string>();
-		data["name"] = username;
-		NetworkManager.Instance.Socket.Emit("SIGNUP",new JSONObject(data));
+		// string username = usernameInputField.text;
+		// Dictionary<string, string> data = new Dictionary<string, string>();
+		// data["username"] = username;
+		// data["name"] = username;
+		// NetworkManager.Instance.Socket.Emit("LOGIN",new JSONObject(data));
 		
+
+		JSONObject data = new JSONObject();
+		data.AddField("username",usernameInputField.text );
+		data.AddField("password",passwordInputField.text );
+		NetworkManager.Instance.Socket.Emit("LOGIN",data);
+	}
+
+	void OnClickSingUp(){
+		SceneManager.LoadScene("signup");
 	}
 
 
