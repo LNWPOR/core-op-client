@@ -1,7 +1,14 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using SocketIO;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System;
 
 public class PlayerController : MonoBehaviour {
+
+	private int playerNumber;
 	public float speed;
 	public float breakSpeed;
 	public float radius;
@@ -34,25 +41,67 @@ public class PlayerController : MonoBehaviour {
 		fixPower = 2f;
 		canAddDamage = true;
 
-		Debug.Log(gameObject.name);
+		if(gameObject.name == "Player1"){
+			playerNumber = 0;
+		}else if(gameObject.name == "Player2"){
+			playerNumber = 1;
+		}
+		
+		SocketOn();
 	}
 
+	void SocketOn(){
+		NetworkManager.Instance.Socket.On("UPDATE_OTHER_PLAYER", OnUpdateOtherPlayer);
+	}
 
 	void Update () {
 //		Debug.Log (canAddDamage);
 	}
 
 	void FixedUpdate(){
-		MoveUpdate ();
-		Rotate ();
-		BreakCheck ();
-		MouseOverUpdate ();
-		AddDamageTest ();
-		RepairDamage ();
-		testTurnForce ();
+		if(playerNumber == UserManager.Instance.userData.playerNumber){
+			MoveUpdate ();
+			Rotate ();
+			BreakCheck ();
+			MouseOverUpdate ();
+			AddDamageTest ();
+			RepairDamage ();
+			testTurnForce ();
+
+			JSONObject data = new JSONObject();
+			data.AddField("position", transform.position.x.ToString()+","+transform.position.y.ToString());
+			NetworkManager.Instance.Socket.Emit("UPDATE_OTHER_PLAYER",data);
+		}
+		
+
 //		getNormMouse ();
 	}
 
+	private void OnUpdateOtherPlayer(SocketIOEvent evt){
+
+		int playerNumberUpdate = Convert.ToInt32(evt.data.GetField("playerNumber").ToString());
+		int roomNumberUpdate = Convert.ToInt32(evt.data.GetField("roomNumber").ToString());
+
+		if(playerNumber == playerNumberUpdate && RoomManager.Instance.roomData.roomNumber == roomNumberUpdate){
+			// Debug.Log(playerNumber + " : " + UserManager.Instance.userData.UserName);
+			FromBoradcastVelocity(Converter.JsonToVecter2(Converter.JsonToString(evt.data.GetField("position").ToString())));
+		}
+		
+	}
+
+	public void FromBoradcastVelocity( Vector2 velocity ){
+		StartCoroutine(MoveLerp(velocity.y));
+	}
+
+	IEnumerator MoveLerp( float pos){
+		float posY = transform.position.y;
+		while( posY !=  pos){
+			posY = Mathf.Lerp(posY, pos, 5*Time.deltaTime);
+			transform.position = new Vector2( transform.position.x, posY);
+			yield return new WaitForEndOfFrame();
+		}
+		yield return new WaitForEndOfFrame();
+	}
 
 	//-------------------------------------------//
 	//  			  CUSTOM ZONE                //
