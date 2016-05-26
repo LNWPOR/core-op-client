@@ -59,7 +59,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		if(playerNumber == UserManager.Instance.userData.playerNumber){
+		// if(playerNumber == UserManager.Instance.userData.playerNumber){
+		if(playerNumber == 0){
 			MoveUpdate ();
 			Rotate ();
 			BreakCheck ();
