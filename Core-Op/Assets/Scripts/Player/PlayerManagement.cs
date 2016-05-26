@@ -25,7 +25,7 @@ public class PlayerManagement : MonoBehaviour {
 			Debug.Log (currentHeal);
 			timer += Time.deltaTime;
 //			TimeCounter ();
-			StartReviving();
+			// StartReviving();
 		}
 	}
 

@@ -47,12 +47,15 @@ public class BulletManager : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll) {
 		Debug.Log (coll.gameObject.tag);
 		switch (coll.gameObject.tag) {
-		case "Enemy":
-			enemyHitScript = enemy.GetComponent<EnemyHit> ();
-			enemyHitScript.DestroyEnemy ();
-			Destroy (gameObject);
-			break;
-		case "Core":
+		// case "Enemy":
+		// 	enemyHitScript = enemy.GetComponent<EnemyHit> ();
+		// 	enemyHitScript.DestroyEnemy ();
+		// 	Destroy (gameObject);
+		// 	break;
+		// case "Core":
+		// 	Destroy (gameObject);
+		// 	break;
+			case "Player":
 			Destroy (gameObject);
 			break;
 		}
