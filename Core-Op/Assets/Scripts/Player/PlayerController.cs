@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour {
 		camRayLength = 100f;
 		fixPower = 2f;
 		canAddDamage = true;
+
+		Debug.Log(gameObject.name);
 	}
 
 
