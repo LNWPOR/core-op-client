@@ -45,6 +45,7 @@ public class LobbyController : MonoBehaviour {
 		NetworkManager.Instance.Socket.On("USER_CONNECTED_ROOM", OnUserConnectedRoom);
 		NetworkManager.Instance.Socket.On("OTHER_USER_CONNECTED_ROOM", OnOtherUserConnectedRoom);
 		NetworkManager.Instance.Socket.On("USER_DISCONNECTED_ROOM", OnUserDisconnectedRoom);
+		NetworkManager.Instance.Socket.On("ROOM_READY", OnRoomReady);
 	}
 
 	IEnumerator WaitScreenLoad(){
@@ -69,6 +70,10 @@ public class LobbyController : MonoBehaviour {
 		data.AddField("roomNumber", roomNumber );
 		NetworkManager.Instance.Socket.Emit("USER_CONNECTED_ROOM", data);
 		// SceneManager.LoadScene("play");
+	}
+
+	private void OnRoomReady(SocketIOEvent evt){
+		SceneManager.LoadScene("play");
 	}
 
 	private void OnUserDisconnectedRoom(SocketIOEvent evt){
