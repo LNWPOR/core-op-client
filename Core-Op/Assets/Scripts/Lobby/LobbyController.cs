@@ -73,6 +73,9 @@ public class LobbyController : MonoBehaviour {
 	}
 
 	private void OnRoomReady(SocketIOEvent evt){
+		// RoomManager.Instance.roomData = new RoomData();
+		RoomManager.Instance.roomData = LobbyManager.Instance._roomsData[roomNumberSelected];
+		RoomManager.Instance.roomData.roomNumber = roomNumberSelected;
 		SceneManager.LoadScene("play");
 	}
 
@@ -102,6 +105,9 @@ public class LobbyController : MonoBehaviour {
 				joinRoomBtn[i].interactable = false;
 			}
 
+			if(totalPlayerRoomSelected == maxRoomPlayer){
+				NetworkManager.Instance.Socket.Emit("ROOM_READY");
+			}
 			// Debug.Log("myFuc roomNumber:"+roomNumberSelected+" playerNumber:"+playerNumber);
 
 			
