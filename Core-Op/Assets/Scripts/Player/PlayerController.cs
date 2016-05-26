@@ -90,17 +90,21 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void FromBoradcastVelocity( Vector2 velocity ){
-		StartCoroutine(MoveLerp(velocity.y));
+		StartCoroutine(MoveLerp(velocity.x,velocity.y));
 	}
 
-	IEnumerator MoveLerp( float pos){
+	IEnumerator MoveLerp( float newPosX,float newPosY){
+		float posX = transform.position.x;
 		float posY = transform.position.y;
-		while( posY !=  pos){
-			posY = Mathf.Lerp(posY, pos, 5*Time.deltaTime);
-			transform.position = new Vector2( transform.position.x, posY);
+		while( posY !=  newPosY && posX !=  newPosX){
+			posY = Mathf.Lerp(posY, newPosY, 5*Time.deltaTime);
+			posX = Mathf.Lerp(posX, newPosX, 5*Time.deltaTime);
+			transform.position = new Vector2( posX, posY);
 			yield return new WaitForEndOfFrame();
 		}
+
 		yield return new WaitForEndOfFrame();
+
 	}
 
 	//-------------------------------------------//
