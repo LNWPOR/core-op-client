@@ -43,4 +43,16 @@ public class Converter {
 
 	}
 
+	public static float[] JsonToRotation(string target ){
+
+		float[] newRotation = new float[3];
+		string[] newString = Regex.Split(target,",");
+		newRotation[0] = float.Parse(newString[0]);
+		newRotation[1] = float.Parse(newString[1]);
+		newRotation[2] = float.Parse(newString[2]);
+
+		return newRotation;
+
+	}
+
 }

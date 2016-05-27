@@ -20,7 +20,7 @@ namespace UnitySampleAssets._2D
         // Use this for initialization
         private void Start()
         {
-        	// playerNumber = UserManager.Instance.userData.playerNumber;
+        	playerNumber = UserManager.Instance.userData.playerNumber;
             SetOffset(playerNumber);
             transform.parent = null;
         }

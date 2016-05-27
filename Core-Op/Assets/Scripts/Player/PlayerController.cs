@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Start () {
+		// Debug.Log(transform.rotation);
 		speed = 10f;
 		turnSpeed = 5f;
 		breakSpeed = 15f;
@@ -59,8 +60,8 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		// if(playerNumber == UserManager.Instance.userData.playerNumber){
-		if(playerNumber == 0){
+		if(playerNumber == UserManager.Instance.userData.playerNumber){
+		// if(playerNumber == 0){
 			MoveUpdate ();
 			Rotate ();
 			BreakCheck ();
@@ -71,6 +72,9 @@ public class PlayerController : MonoBehaviour {
 
 			JSONObject data = new JSONObject();
 			data.AddField("position", transform.position.x.ToString()+","+transform.position.y.ToString());
+			data.AddField("rotation", transform.rotation.x.ToString()+","
+									 +transform.rotation.y.ToString()+","
+									 +transform.rotation.z.ToString());
 			NetworkManager.Instance.Socket.Emit("UPDATE_OTHER_PLAYER",data);
 		}
 		
@@ -86,8 +90,15 @@ public class PlayerController : MonoBehaviour {
 		if(playerNumber == playerNumberUpdate && RoomManager.Instance.roomData.roomNumber == roomNumberUpdate){
 			// Debug.Log(playerNumber + " : " + UserManager.Instance.userData.UserName);
 			FromBoradcastVelocity(Converter.JsonToVecter2(Converter.JsonToString(evt.data.GetField("position").ToString())));
+			FromBoradcastRotation(Converter.JsonToRotation(Converter.JsonToString(evt.data.GetField("rotation").ToString())));
 		}
 		
+	}
+	public void FromBoradcastRotation(float[] newRotation){
+		// Debug.Log(newRotation[0]+","+newRotation[1]+","+newRotation[2]);
+		// transform.Rotate(newRotation[0],newRotation[1],newRotation[1]);
+		Vector3 temp = new Vector3 (0, 0, -newRotation[2]);	
+		transform.rotation = Quaternion.Euler (temp);
 	}
 
 	public void FromBoradcastVelocity( Vector2 velocity ){
