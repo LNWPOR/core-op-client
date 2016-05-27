@@ -8,23 +8,16 @@ using System;
 
 public class RoomController : MonoBehaviour {
 
-	// public GameObject[] player;
-	// PlayerController[] playerControllerScript;
-	// Use this for initialization
+	public Text scoresText;
+	private float time = 0f;
 	void Start () {
-		// playerControllerScript[0] = player[0].GetComponent<PlayerController> ();
-		// playerControllerScript[1] = player[1].GetComponent<PlayerController> ();
-		// Debug.Log(RoomManager.Instance.roomData.roomNumber);
 
 	}
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		// if( UserManager.Instance.userData.playerNumber == 0 ){
-		// 	playerControllerScript[0].PlayerUpdate();
-		// }else if( UserManager.Instance.userData.playerNumber == 1 ){
-		// 	playerControllerScript[1].PlayerUpdate();
-		// }
+		time = time + Time.deltaTime;
+		scoresText.text = "Scores: "+ Mathf.Floor(time).ToString();
 	}
 
 
