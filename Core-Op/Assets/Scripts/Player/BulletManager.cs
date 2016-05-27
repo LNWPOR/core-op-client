@@ -10,6 +10,8 @@ public class BulletManager : MonoBehaviour {
 	GameObject enemy;
 	Vector3 MouseVec;
 	Vector2 playerPos;
+	Vector3 VR;
+	bool oneTime = false;
 	// Use this for initialization
 	void Start () {
 		bulletRigidbody = GetComponent<Rigidbody2D> ();
@@ -22,7 +24,11 @@ public class BulletManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		fire ();
+		if(!oneTime){
+			fire ();
+			oneTime = true;
+		}
+		
 		Destroy (gameObject, 3f);
 	}
 
@@ -39,10 +45,12 @@ public class BulletManager : MonoBehaviour {
 		Vector2 temp;
 		Vector2 dir;
 		dir = getDirection();
-		temp.x = dir.x * speed * 10f;
-		temp.y = dir.y * speed * 10f;
+		temp.x = UserManager.Instance.userData.vecRight.x * speed * 10f;
+		temp.y = UserManager.Instance.userData.vecRight.y * speed * 10f;
 		bulletRigidbody.velocity = temp;
 	}
+
+	
 
 	void OnCollisionEnter2D(Collision2D coll) {
 		Debug.Log (coll.gameObject.tag);

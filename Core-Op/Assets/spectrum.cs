@@ -13,7 +13,7 @@ public class spectrum : MonoBehaviour {
 	public GameObject enemyPrefab;
 	public int numberOfObjects = 20;
 	public float radius = 5f;
-	public float ratio = 0.01f;
+	public float ratio = 0.0175f;
 	public float[] spt;
 	public GameObject[] cubes;
 	public int numberOfChunk = 5;

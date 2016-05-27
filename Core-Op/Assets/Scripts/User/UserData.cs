@@ -7,6 +7,7 @@ public class UserData  {
 	public string UserName;
 	public int playerNumber;
 	public int highScore;
+	public Vector3 vecRight;
 	// public bool isSignUp = false;
 
 }

@@ -48,6 +48,8 @@ public class PlayerController : MonoBehaviour {
 			playerNumber = 1;
 		}
 		
+
+
 		SocketOn();
 	}
 
@@ -90,7 +92,7 @@ public class PlayerController : MonoBehaviour {
 		if(playerNumber == playerNumberUpdate && RoomManager.Instance.roomData.roomNumber == roomNumberUpdate){
 			// Debug.Log(playerNumber + " : " + UserManager.Instance.userData.UserName);
 			FromBoradcastVelocity(Converter.JsonToVecter2(Converter.JsonToString(evt.data.GetField("position").ToString())));
-			FromBoradcastRotation(Converter.JsonToRotation(Converter.JsonToString(evt.data.GetField("rotation").ToString())));
+			// FromBoradcastRotation(Converter.JsonToRotation(Converter.JsonToString(evt.data.GetField("rotation").ToString())));
 		}
 		
 	}

@@ -9,6 +9,7 @@ using System;
 public class RoomController : MonoBehaviour {
 
 	private int playerNumber = 0;
+	public GameObject bullet;
 	public Text scoresText;
 	public GameObject coreGun;
 	public GameObject engine;
@@ -44,9 +45,41 @@ public class RoomController : MonoBehaviour {
 	void SocketOn(){
 		NetworkManager.Instance.Socket.On("GET_ROOM", OnGetRoom);
 		NetworkManager.Instance.Socket.On("GO_BACK_READY", OnGoBackReady);
+		NetworkManager.Instance.Socket.On("SHOOT", OnShoot);
 	}
 
+	private void OnShoot(SocketIOEvent evt){
+		Debug.Log("gg");
+		generateBull(Converter.JsonToVecter3(Converter.JsonToString(evt.data.GetField("position").ToString())));
+		
+	}
 
+	public void generateBull( Vector3 velocity ){
+
+		UserManager.Instance.userData.vecRight = velocity;
+		// Debug.Log(velocity);
+
+		// StartCoroutine(MoveLerp(velocity.x,velocity.y));
+
+		Quaternion direction = RotateToGun ();
+		// Vector3 gunEndPos = velocity * 2f;
+
+		// Instantiate (bullet, transform.position, direction);
+		Instantiate (bullet, transform.position, transform.rotation);
+
+		// isCanShoot = false;
+	}
+
+	Quaternion RotateToGun ()
+	{
+		Quaternion direction;
+		direction = transform.rotation;
+		Vector3 temp;
+		temp = direction.eulerAngles;
+		temp.z += 90f;
+		direction.eulerAngles = temp;
+		return direction;
+	}
 
 	// Update is called once per frame
 	void FixedUpdate () {
