@@ -78,10 +78,16 @@ public class LobbyController : MonoBehaviour {
 	}
 
 	private void OnRoomReady(SocketIOEvent evt){
-		// RoomManager.Instance.roomData = new RoomData();
-		RoomManager.Instance.roomData = LobbyManager.Instance._roomsData[roomNumberSelected];
-		RoomManager.Instance.roomData.roomNumber = roomNumberSelected;
-		SceneManager.LoadScene("play");
+		int readyRoomNumber = Convert.ToInt32(evt.data.GetField("roomNumber").ToString());
+		if(readyRoomNumber == roomNumberSelected){
+			RoomManager.Instance.roomData = LobbyManager.Instance._roomsData[roomNumberSelected];
+			RoomManager.Instance.roomData.roomNumber = roomNumberSelected;
+			SceneManager.LoadScene("play");			
+		}
+
+		// RoomManager.Instance.roomData = LobbyManager.Instance._roomsData[roomNumberSelected];
+		// RoomManager.Instance.roomData.roomNumber = roomNumberSelected;
+		// SceneManager.LoadScene("play");
 	}
 
 	private void OnUserDisconnectedRoom(SocketIOEvent evt){
@@ -111,7 +117,9 @@ public class LobbyController : MonoBehaviour {
 			}
 
 			if(totalPlayerRoomSelected == maxRoomPlayer){
-				NetworkManager.Instance.Socket.Emit("ROOM_READY");
+				JSONObject data = new JSONObject();
+				data.AddField("roomNumber",roomNumberSelected);
+				NetworkManager.Instance.Socket.Emit("ROOM_READY",data);
 			}
 			// Debug.Log("myFuc roomNumber:"+roomNumberSelected+" playerNumber:"+playerNumber);
 
