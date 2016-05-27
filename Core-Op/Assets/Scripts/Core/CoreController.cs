@@ -45,15 +45,11 @@ public class CoreController : MonoBehaviour {
 		RegressionEffect (enginePart,coreGunPart,jetPart);
 		//JetHpEffect ();
 
-		GameIsOver();
+		
 
 	}
 
-	void GameIsOver(){
-		if(enginePart.currentHp == 0 && coreGunPart.currentHp == 0 && jetPart.currentHp == 0){
-			SceneManager.LoadScene("lobby");
-		}
-	}
+	
 
 	//-------------------------------------------//
 	//  			  CUSTOM ZONE                //
