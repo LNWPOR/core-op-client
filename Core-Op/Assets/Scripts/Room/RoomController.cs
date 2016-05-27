@@ -9,6 +9,7 @@ using System;
 public class RoomController : MonoBehaviour {
 
 	public Text scoresText;
+
 	private float time = 0f;
 	void Start () {
 

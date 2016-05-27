@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using SocketIO;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System;
 
 public class CoreController : MonoBehaviour {
 	private float minimumFrac = 10f;
@@ -37,8 +42,17 @@ public class CoreController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		//RegressionEffect (enginePart,coreGunPart,jetPart);
+		RegressionEffect (enginePart,coreGunPart,jetPart);
 		//JetHpEffect ();
+
+		GameIsOver();
+
+	}
+
+	void GameIsOver(){
+		if(enginePart.currentHp == 0 && coreGunPart.currentHp == 0 && jetPart.currentHp == 0){
+			SceneManager.LoadScene("lobby");
+		}
 	}
 
 	//-------------------------------------------//
