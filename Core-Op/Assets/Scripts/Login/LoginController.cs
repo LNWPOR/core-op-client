@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 using SocketIO;
+using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using System;
 
 public class LoginController : MonoBehaviour {
 
@@ -50,6 +51,7 @@ public class LoginController : MonoBehaviour {
 		UserData usrData = new UserData();
 		usrData.ID = Converter.JsonToString(evt.data.GetField("id").ToString());
 		usrData.UserName = Converter.JsonToString(evt.data.GetField("name").ToString());
+		usrData.highScore = Convert.ToInt32(evt.data.GetField("highScore").ToString());
 		// usrData.isSignUp = true;
 		UserManager.Instance.userData = usrData;
 		SceneManager.LoadScene("lobby");

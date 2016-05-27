@@ -17,6 +17,9 @@ public class LobbyController : MonoBehaviour {
 	private int maxRoomPlayer;
 	private int totalRooms;
 
+	public Text userNameText;
+	public Text scoresText;
+
 	void Awake() {
 		// startBtn.onClick.AddListener(OnClickStart);
 		joinRoomBtn[0].onClick.AddListener(() => OnClickJoinRoom(0));
@@ -31,6 +34,8 @@ public class LobbyController : MonoBehaviour {
 	void Start () {
 		LobbyManager.Instance._usersData = new List<UserData>();
 		LobbyManager.Instance._roomsData = new List<RoomData>();
+		userNameText.text = "Username: " + UserManager.Instance.userData.UserName;
+		scoresText.text = "HighScores: " + UserManager.Instance.userData.highScore.ToString();
 	}
 	
 	// Update is called once per frame
